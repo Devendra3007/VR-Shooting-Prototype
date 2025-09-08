@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -13,6 +14,8 @@ public class Gun : MonoBehaviour
     [SerializeField] private Transform firePoint;
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private ParticleSystem muzzleFlash;
+    [SerializeField] private TrailRenderer bulletTrailRenderer;
+
     private float maxRange = 100f;
     private float shootCooldown = 0;
 
@@ -50,9 +53,12 @@ public class Gun : MonoBehaviour
         // Play muzzle flash
         muzzleFlash.Play();
 
-        Ray ray = new Ray(firePoint.position, firePoint.forward);;
+        Ray ray = new Ray(firePoint.position, firePoint.forward);
+        Vector3 endPoint = ray.origin + ray.direction * maxRange;
         if (Physics.Raycast(ray, out RaycastHit hit, maxRange, enemyLayer))
         {
+            endPoint = hit.point;
+
             // Check if the hit object has an Enemy component
             Enemy enemy = hit.collider.GetComponentInParent<Enemy>(); // Enemy Script is on parent object hence use GetComponentInParent
             if (enemy != null)
@@ -60,7 +66,25 @@ public class Gun : MonoBehaviour
                 enemy.TakeDamage(damagePerShot, hit.point, hit.normal);
             }
         }
+
+        // Show bullet trail
+        TrailRenderer trailRenderer = Instantiate(bulletTrailRenderer, firePoint.position, Quaternion.identity);
+        StartCoroutine(SpawnTrail(trailRenderer, hit));
     }
 
+    private IEnumerator SpawnTrail(TrailRenderer trail, RaycastHit hit)
+    {
+        float time = 0;
+        Vector3 startPosition = trail.transform.position;
+        Vector3 endPosition = hit.collider ? hit.point : (firePoint.position + firePoint.forward * maxRange); // If no hit, extend to max range
+        while (time < 1)
+        {
+            trail.transform.position = Vector3.Lerp(startPosition, endPosition, time);
+            time += Time.deltaTime / trail.time;
+            yield return null;
+        }
+        trail.transform.position = endPosition;
+        Destroy(trail.gameObject, trail.time);
+    }
 
 }

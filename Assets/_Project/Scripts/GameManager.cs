@@ -31,8 +31,6 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        Invoke(nameof(TestGunsMenu), 5f); // For testing, open gun menu after 5 seconds
     }
 
     private void Update()
@@ -46,8 +44,6 @@ public class GameManager : MonoBehaviour
             ShowGunsMenu(gunChangeMenuActive);
         }
     }
-
-    private void TestGunsMenu() { gunChangeMenuActive = true; ShowGunsMenu(true);  }
 
     private void ShowGunsMenu(bool visible)
     {
