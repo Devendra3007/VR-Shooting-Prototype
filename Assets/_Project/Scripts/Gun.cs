@@ -24,7 +24,8 @@ public class Gun : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.Instance.IsGameOver)
+        // If the game is over or paused, do not move
+        if (GameManager.Instance.CurrentGameState is GameManager.GameState.GameOver or GameManager.GameState.Paused)
         {
             canShoot = false;
             return;

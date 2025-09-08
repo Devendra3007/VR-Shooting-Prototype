@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
 
     private ParticleSystem[] damageVFX;
 
+
     private void Start()
     {
         gameManager = GameManager.Instance;
@@ -27,7 +28,8 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        if(gameManager.IsGameOver) return;
+        // If the game is over or paused, do not move
+        if (gameManager.CurrentGameState is GameManager.GameState.GameOver or GameManager.GameState.Paused) return;
 
         transform.Translate(Vector3.back * speed * Time.deltaTime);
 
@@ -65,7 +67,8 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(int damage, Vector3 hitPoint, Vector3 hitNormal)
     {
-        if(GameManager.Instance.IsGameOver) return;
+        if(GameManager.Instance.CurrentGameState is GameManager.GameState.GameOver) return;
+
         health -= damage;
         PlayDamageVFX(hitPoint, hitNormal);
 

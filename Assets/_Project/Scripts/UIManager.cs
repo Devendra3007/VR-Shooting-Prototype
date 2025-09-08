@@ -7,13 +7,15 @@ public class UIManager : MonoBehaviour
 
     public static UIManager Instance { get; private set; }
 
-    [SerializeField] private TextMeshProUGUI scoreText;
-
+    
     [Header("GameOver Panel")]  
     [SerializeField] private TextMeshProUGUI finalScoreText;
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private Button restartButton;
     [SerializeField] private Button quitButton;
+
+    [Header("Gun Change Panel")]
+    [SerializeField] private GunMenuUI gunChangePanel;
 
     private void Awake()
     {
@@ -31,13 +33,18 @@ public class UIManager : MonoBehaviour
     {
         restartButton.onClick.AddListener(RestartGame);
         quitButton.onClick.AddListener(QuitGame);
+
+        gunChangePanel.Initialize();
+    }
+
+    public void ToggleGunChangePanel(bool visible)
+    {
+        gunChangePanel.Show(visible);
     }
 
     public void UpdateScore(int score)
     {
-        if (scoreText == null) return;
-
-        scoreText.text = $"Score: {score}";
+        // TODO: Implement score update in UI
     }
     public void ShowGameOverPanel()
     {

@@ -40,7 +40,7 @@ public class EnemyManager : MonoBehaviour
         {
             float wait = Random.Range(minSpawnInterval, maxSpawnInterval);
             yield return new WaitForSeconds(wait);
-            if (gameManager.IsGameOver) continue;
+            if (gameManager.CurrentGameState is GameManager.GameState.GameOver or GameManager.GameState.Paused) continue;
             SpawnRandomEnemy();
         }
     }

@@ -1,16 +1,21 @@
+using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public enum GameState { WaitingToStart, Playing, Paused, GameOver }
     public static GameManager Instance { get; private set; }
 
     public Transform PlayerTransform; // Reference to player Transform
 
-    private bool isGameOver = false;
-    private int score = 0;
+    private GameState gameState = GameState.WaitingToStart;
 
-    public bool IsGameOver => isGameOver;
+    private int score = 0;
+    private bool gunChangeMenuActive = false;
+
+    public GameState CurrentGameState => gameState;
 
     private void Awake()
     {
@@ -26,7 +31,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        float moveX = 0f;
+       /* float moveX = 0f;
 
         // Check for input (A/D or Left/Right arrow keys)
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
@@ -40,13 +45,29 @@ public class GameManager : MonoBehaviour
 
         // Apply movement (you can adjust speed as needed)
         float speed = 5f;
-        PlayerTransform.Translate(Vector3.right * moveX * speed * Time.deltaTime);
+        PlayerTransform.Translate(Vector3.right * moveX * speed * Time.deltaTime);*/
+
+
+        if (gameState is GameState.GameOver) return;
+
+        // Press Y to toggle gun change menu
+        if (OVRInput.Get(OVRInput.RawButton.Y)) //Input.GetKeyDown(KeyCode.Space)
+        {
+            gunChangeMenuActive = !gunChangeMenuActive;
+            gameState = gunChangeMenuActive ? GameState.Paused : GameState.Playing;
+            UIManager.Instance.ToggleGunChangePanel(gunChangeMenuActive);
+        }
+    }
+
+    public void SetGameState(GameState gameState)
+    {
+        this.gameState = gameState;
     }
 
     public void GameOver()
     {
-        isGameOver = true;
         UIManager.Instance.ShowGameOverPanel(score);
+        gameState = GameState.GameOver;
     }
 
     public void AddScore(int points)
