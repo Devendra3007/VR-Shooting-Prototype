@@ -3,10 +3,11 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-
-
     [Header("Player Transform")]
     private Transform playerTransform; // Fetched from gameManager at start
+
+    [Header("Enemy Spawn Parent")]
+    [SerializeField] private Transform enemySpawnParent;
 
     [Header("Enemy Prefabs")]
     [SerializeField] private GameObject cubeEnemyPrefab;
@@ -32,6 +33,16 @@ public class EnemyManager : MonoBehaviour
         playerTransform = gameManager.PlayerTransform;
         isRunning = true;
         spawnCoroutine = StartCoroutine(SpawnEnemyRoutine());
+
+        gameManager.OnGameStateChanged += GameManager_OnGameStateChanged;
+    }
+
+    private void GameManager_OnGameStateChanged(GameManager.GameState state)
+    {
+        if(state is GameManager.GameState.GameOver)
+        {
+            ClearEnemies();
+        }
     }
 
     IEnumerator SpawnEnemyRoutine()
@@ -62,10 +73,19 @@ public class EnemyManager : MonoBehaviour
         Vector3 pos = new Vector3(x, spawnPositionY, playerTransform.position.z + spawnPositionZ);
 
         var go = Instantiate(prefab, pos, Quaternion.identity);
+        go.transform.SetParent(enemySpawnParent);
         var enemy = go.GetComponent<Enemy>();
         if (enemy != null)
         {
             enemy.SetEnemySettings(type, Random.Range(minSpeed, maxSpeed));
+        }
+    }
+
+    private void ClearEnemies()
+    {
+        foreach (Transform child in enemySpawnParent)
+        {
+            Destroy(child.gameObject);
         }
     }
 
