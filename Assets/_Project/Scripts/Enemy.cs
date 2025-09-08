@@ -15,10 +15,14 @@ public class Enemy : MonoBehaviour
     private float destroyZThreshold = -0.5f; // Z position to destroy the enemy
     private GameManager gameManager;
 
+    private ParticleSystem[] damageVFX;
+
     private void Start()
     {
         gameManager = GameManager.Instance;
         playerTransform =gameManager.PlayerTransform;
+
+        damageVFX = GetComponentsInChildren<ParticleSystem>();
     }
 
     private void Update()
@@ -59,10 +63,11 @@ public class Enemy : MonoBehaviour
         this.speed = speed;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, Vector3 hitPoint, Vector3 hitNormal)
     {
         if(GameManager.Instance.IsGameOver) return;
         health -= damage;
+        PlayDamageVFX(hitPoint, hitNormal);
 
         if (health <= 0)
         {
@@ -76,6 +81,24 @@ public class Enemy : MonoBehaviour
         gameManager.AddScore(points);
         Destroy(gameObject);
         // TODO: Add particle effects here
+    }
+
+    public void PlayDamageVFX(Vector3 hitPoint, Vector3 hitNormal)
+    {
+        if(damageVFX.Length == 0) return;
+
+        // Small offset so the effect appears slightly above the surface
+        Vector3 spawnPos = hitPoint + hitNormal * 0.05f;
+
+        // Move the parent container of the VFX to the hit point
+        Transform vfxParent = damageVFX[0].transform.parent;
+        vfxParent.position = hitPoint;
+        vfxParent.forward = hitNormal; // rotate sparks to face outward
+
+        foreach (var vfx in damageVFX)
+        {
+            vfx.Play();
+        }
     }
 
     public EnemyType GetEnemyType() => enemyType;

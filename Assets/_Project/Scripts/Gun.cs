@@ -16,7 +16,7 @@ public class Gun : MonoBehaviour
     [SerializeField] private ParticleSystem muzzleFlash;
     private float maxRange = 100f;
 
-    private bool canShoot = true;
+    private bool canShoot = false;
     private float shootCooldown = 0;
 
     [Header("Testing Input (non-VR)")]
@@ -79,7 +79,7 @@ public class Gun : MonoBehaviour
             Enemy enemy = hit.collider.GetComponentInParent<Enemy>(); // Enemy Script is on parent object hence use GetComponentInParent
             if (enemy != null)
             {
-                enemy.TakeDamage(damagePerShot);
+                enemy.TakeDamage(damagePerShot, hit.point, hit.normal);
                 // TODO : Add hit effects or sounds here
             }
         }
