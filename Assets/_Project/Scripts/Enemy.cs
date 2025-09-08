@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
     private EnemyType enemyType;
 
     [Header("Movement Settings")]
-    private float speed = 6f;
+    private float speed = 0.5f;
     private int health = 1;
     private int points = 1;
 
@@ -46,11 +46,11 @@ public class Enemy : MonoBehaviour
         switch (enemyType)
         {
             case EnemyType.Cube:
-                health = 6; points = 10; break;
+                health = 6; points = 5; break;
             case EnemyType.Sphere:
-                health = 12; points = 20; break;
+                health = 12; points = 10; break;
             case EnemyType.Capsule:
-                health = 18; points = 40; break;
+                health = 18; points = 15; break;
         }
     }
 
@@ -64,7 +64,7 @@ public class Enemy : MonoBehaviour
         if(GameManager.Instance.IsGameOver) return;
         health -= damage;
 
-        if(health <= 0)
+        if (health <= 0)
         {
             Die();
         }
@@ -72,7 +72,8 @@ public class Enemy : MonoBehaviour
 
     public void Die()
     {
-       gameManager.AddScore(points);
+        Debug.Log($"{enemyType} Enemy Destroyed! +{points} points");
+        gameManager.AddScore(points);
         Destroy(gameObject);
         // TODO: Add particle effects here
     }

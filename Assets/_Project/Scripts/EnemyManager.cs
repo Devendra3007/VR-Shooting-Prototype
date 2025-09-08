@@ -19,8 +19,8 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private float corridorHalfWidth = 6f; // Half the width of the corridor (to spawn within -width to +width)
     [SerializeField] private float minSpawnInterval = 0.5f; // Minimum time between spawns
     [SerializeField] private float maxSpawnInterval = 2f; // Maximum time between spawns
-    [SerializeField] private float minSpeed = 4f; // Minimum enemy speed
-    [SerializeField] private float maxSpeed = 10f; // Maximum enemy speed
+    [SerializeField] private float minSpeed = 0.005f; // Minimum enemy speed
+    [SerializeField] private float maxSpeed = 0.5f; // Maximum enemy speed
 
     private bool isRunning = false;
     private Coroutine spawnCoroutine;

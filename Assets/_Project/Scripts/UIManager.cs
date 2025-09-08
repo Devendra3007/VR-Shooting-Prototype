@@ -35,6 +35,8 @@ public class UIManager : MonoBehaviour
 
     public void UpdateScore(int score)
     {
+        if (scoreText == null) return;
+
         scoreText.text = $"Score: {score}";
     }
     public void ShowGameOverPanel()
