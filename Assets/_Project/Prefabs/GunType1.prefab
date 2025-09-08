@@ -26,8 +26,8 @@ Transform:
   m_GameObject: {fileID: 103331287260579830}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.257, z: -0.584}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1540059419351110742}
@@ -46,7 +46,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce3187890eb3e3c42bd39ebc0281a21b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gunType: 0
   damagePerShot: 3
   firingRate: 1
   firePoint: {fileID: 1551685390138674163}
@@ -54,7 +53,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   muzzleFlash: {fileID: 1291363043008650903}
-  testHoldKey: 323
 --- !u!1 &1355891342088397486
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,6 +93,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1551685390138674163}
     m_Modifications:
+    - target: {fileID: 2783985880249478748, guid: 10b86eb4ecdf632488047806a045fc6a, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5880153897315278169, guid: 10b86eb4ecdf632488047806a045fc6a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

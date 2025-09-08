@@ -30,7 +30,6 @@ public class GunMenuUI : MonoBehaviour
         previousButton.onClick.AddListener(PreviousGun);
         nextButton.onClick.AddListener(NextGun);
         selectButton.onClick.AddListener(SelectGun);
-
         UpdateCurrentGunUI();
     }
 
@@ -91,6 +90,7 @@ public class GunMenuUI : MonoBehaviour
 
     public void SelectGun()
     {
+        GameManager.Instance.SetCurrentSelectedGun((Gun.GunType)currentGunIndex);
         Show(false);
     }
 

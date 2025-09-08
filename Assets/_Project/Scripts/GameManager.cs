@@ -8,12 +8,16 @@ public class GameManager : MonoBehaviour
     public enum GameState { WaitingToStart, Playing, Paused, GameOver }
     public static GameManager Instance { get; private set; }
 
+    public event Action<GameState> OnGameStateChanged;
+    public event Action<Gun.GunType> OnGunChanged;
+
     public Transform PlayerTransform; // Reference to player Transform
 
     private GameState gameState = GameState.WaitingToStart;
 
     private int score = 0;
     private bool gunChangeMenuActive = false;
+    private Gun.GunType currentGunType = Gun.GunType.Type1;
 
     public GameState CurrentGameState => gameState;
 
@@ -27,47 +31,45 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        Invoke(nameof(TestGunsMenu), 5f); // For testing, open gun menu after 5 seconds
     }
 
     private void Update()
     {
-       /* float moveX = 0f;
-
-        // Check for input (A/D or Left/Right arrow keys)
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-        {
-            moveX = -1f; // Move left
-        }
-        else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-        {
-            moveX = 1f; // Move right
-        }
-
-        // Apply movement (you can adjust speed as needed)
-        float speed = 5f;
-        PlayerTransform.Translate(Vector3.right * moveX * speed * Time.deltaTime);*/
-
-
         if (gameState is GameState.GameOver) return;
 
         // Press Y to toggle gun change menu
-        if (OVRInput.Get(OVRInput.RawButton.Y)) //Input.GetKeyDown(KeyCode.Space)
+        if (OVRInput.Get(OVRInput.RawButton.Y)) 
         {
             gunChangeMenuActive = !gunChangeMenuActive;
-            gameState = gunChangeMenuActive ? GameState.Paused : GameState.Playing;
-            UIManager.Instance.ToggleGunChangePanel(gunChangeMenuActive);
+            ShowGunsMenu(gunChangeMenuActive);
         }
     }
 
-    public void SetGameState(GameState gameState)
+    private void TestGunsMenu() { gunChangeMenuActive = true; ShowGunsMenu(true);  }
+
+    private void ShowGunsMenu(bool visible)
     {
-        this.gameState = gameState;
+        gameState = gunChangeMenuActive ? GameState.Paused : GameState.Playing;
+        UIManager.Instance.ToggleGunChangePanel(gunChangeMenuActive);
+        OnGameStateChanged?.Invoke(gameState);
+    }
+
+    public void SetCurrentSelectedGun(Gun.GunType gunType)
+    {
+        currentGunType = gunType;
+        OnGunChanged?.Invoke(gunType);
+
+        gameState = GameState.Playing;
+        OnGameStateChanged?.Invoke(gameState);
     }
 
     public void GameOver()
     {
         UIManager.Instance.ShowGameOverPanel(score);
         gameState = GameState.GameOver;
+        OnGameStateChanged?.Invoke(gameState);
     }
 
     public void AddScore(int points)
