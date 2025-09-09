@@ -6725,10 +6725,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "- Press/hold the index trigger buttons of \n  controllers to fire.\n-
-    Press X to toggle the guns Menu.\n- Shoot enemies before they reach you.\n- Earn
-    points for each enemy destroyed.\r\n   \u2022 Cube = 6 HP\r\n   \u2022 Sphere
-    = 12 HP\r\n   \u2022 Capsule = 18 HP\r\n- Game ends if an enemy passes you"
+  m_text: "- Hold the index trigger buttons of \n  controllers to fire.\n- Press
+    X to toggle the guns Menu.\n- Shoot enemies before they reach you.\n- Earn points
+    for each enemy destroyed.\r\n   \u2022 Cube = 6 HP\r\n   \u2022 Sphere = 12 HP\r\n  
+    \u2022 Capsule = 18 HP\r\n- Game ends if an enemy passes you"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
