@@ -18,7 +18,13 @@ public class Enemy : MonoBehaviour
     private ParticleSystem[] damageVFX;
     private AudioSource audioSource;
 
+    [Header("Audio Settings")]
     [SerializeField] private AudioClip blastClip; // Sound to play on death
+
+    [Header("Particle Systems")]
+    [SerializeField] private Transform damageVFXParent; // Parent object containing damage VFX particle systems
+    [SerializeField] private ParticleSystem explosionEffect; // Particle system to play on death
+
     private bool died = false; // To prevent multiple death calls
 
     private void Start()
@@ -26,7 +32,7 @@ public class Enemy : MonoBehaviour
         gameManager = GameManager.Instance;
         playerTransform =gameManager.PlayerTransform;
 
-        damageVFX = GetComponentsInChildren<ParticleSystem>();
+        damageVFX = damageVFXParent.GetComponentsInChildren<ParticleSystem>();
         audioSource = GetComponentInChildren<AudioSource>();
     }
 
@@ -91,7 +97,9 @@ public class Enemy : MonoBehaviour
     {
         gameManager.AddScore(points);
         audioSource.clip = blastClip;
-        audioSource.Play();
+        audioSource.Play(); // Play the blast sound
+        explosionEffect.Play(); // Play blast effect
+        transform.GetChild(0).gameObject.SetActive(false); // Hide the enemy model
         Destroy(gameObject, audioSource.clip.length); // Delay destroy to allow sound to play
         died = true;
     }
