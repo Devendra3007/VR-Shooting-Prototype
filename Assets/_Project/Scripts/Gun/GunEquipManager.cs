@@ -22,15 +22,12 @@ public class GunEquipManager : MonoBehaviour
     {
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
         GameManager.Instance.OnGunChanged += GameManager_OnGunChanged;
-
-        // Equip initial guns
-        EquipGuns(Gun.GunType.Type3);
-        ToggleControllers(false);
+        ToggleControllers(true);
     }
     private void OnDestroy()
     {
-        GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
-        GameManager.Instance.OnGunChanged += GameManager_OnGunChanged;
+        GameManager.Instance.OnGameStateChanged -= GameManager_OnGameStateChanged;
+        GameManager.Instance.OnGunChanged -= GameManager_OnGunChanged;
     }
 
     private void GameManager_OnGunChanged(Gun.GunType gunType)
@@ -39,9 +36,15 @@ public class GunEquipManager : MonoBehaviour
         EquipGuns(gunType);
     }
 
-    private void GameManager_OnGameStateChanged(GameManager.GameState state)
+    private void GameManager_OnGameStateChanged(GameManager.GameState prevState, GameManager.GameState currentState)
     {
-        switch (state)
+        if (prevState is GameManager.GameState.WaitingToStart && currentState is GameManager.GameState.Playing)
+        {
+            EquipGuns(Gun.GunType.Type1);
+            ToggleControllers(false);
+        }
+
+        switch (currentState)
         {
             case GameState.Playing:
                 ToggleGuns(true);

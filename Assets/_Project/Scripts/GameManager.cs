@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public enum GameState { WaitingToStart, Playing, Paused, GameOver }
     public static GameManager Instance { get; private set; }
 
-    public event Action<GameState> OnGameStateChanged;
+    public event Action<GameState,GameState> OnGameStateChanged;
     public event Action<Gun.GunType> OnGunChanged;
 
     public Transform PlayerTransform; // Reference to player Transform
@@ -48,11 +48,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void StartGame()
+    {
+        var prevGameState = gameState;
+        gameState = GameState.Playing;
+        OnGameStateChanged?.Invoke(prevGameState, gameState);
+    }
+
     private void ShowGunsMenu(bool visible)
     {
+        var prevGameState = gameState;
         gameState = gunChangeMenuActive ? GameState.Paused : GameState.Playing;
         UIManager.Instance.ToggleGunChangePanel(gunChangeMenuActive);
-        OnGameStateChanged?.Invoke(gameState);
+        OnGameStateChanged?.Invoke(prevGameState, gameState);
+
     }
 
     public void SetCurrentSelectedGun(Gun.GunType gunType)
@@ -60,15 +69,17 @@ public class GameManager : MonoBehaviour
         currentGunType = gunType;
         OnGunChanged?.Invoke(gunType);
 
+        var prevGameState = gameState;
         gameState = GameState.Playing;
-        OnGameStateChanged?.Invoke(gameState);
+        OnGameStateChanged?.Invoke(prevGameState, gameState);
     }
 
     public void GameOver()
     {
         UIManager.Instance.ShowGameOverPanel(score);
+        var prevGameState = gameState;
         gameState = GameState.GameOver;
-        OnGameStateChanged?.Invoke(gameState);
+        OnGameStateChanged?.Invoke(prevGameState, gameState);
         audioSource.Play();
     }
 

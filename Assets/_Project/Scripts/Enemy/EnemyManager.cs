@@ -31,15 +31,24 @@ public class EnemyManager : MonoBehaviour
     {
         gameManager = GameManager.Instance;
         playerTransform = gameManager.PlayerTransform;
-        isRunning = true;
-        spawnCoroutine = StartCoroutine(SpawnEnemyRoutine());
-
         gameManager.OnGameStateChanged += GameManager_OnGameStateChanged;
     }
 
-    private void GameManager_OnGameStateChanged(GameManager.GameState state)
+    private void OnDestroy()
     {
-        if(state is GameManager.GameState.GameOver)
+        gameManager.OnGameStateChanged -= GameManager_OnGameStateChanged;
+    }
+
+    private void GameManager_OnGameStateChanged(GameManager.GameState prevState, GameManager.GameState currentState)
+    {
+        // Start spawning when game starts
+        if (prevState is GameManager.GameState.WaitingToStart && currentState is GameManager.GameState.Playing)
+        {
+            isRunning = true;
+            spawnCoroutine = StartCoroutine(SpawnEnemyRoutine());
+        }
+
+        if(currentState is GameManager.GameState.GameOver)
         {
             ClearEnemies();
         }
