@@ -3682,8 +3682,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 48.1, y: -0.200001}
-  m_SizeDelta: {x: 61.28, y: 10}
+  m_AnchoredPosition: {x: 62.93, y: -0.200001}
+  m_SizeDelta: {x: 90.94, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &560927319
 MonoBehaviour:
@@ -3732,8 +3732,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 5
-  m_fontSizeBase: 5
+  m_fontSize: 7
+  m_fontSizeBase: 7
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -6725,11 +6725,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "- Press Y to toggle the Gun Menu\n- Use Previous / Next buttons to browse
-    guns\n- Press Select to equip the selected gun\n- Shoot enemies before they reach
-    you\n- Earn points for each enemy destroyed\r\n   \u2022 Cube = 6 HP\r\n   \u2022
-    Sphere = 12 HP\r\n   \u2022 Capsule = 18 HP\r\n- Game ends if an enemy passes
-    you"
+  m_text: "- Press/hold the index trigger buttons of \n  controllers to fire.\n-
+    Press Y to toggle the guns Menu.\n- Shoot enemies before they reach you.\n- Earn
+    points for each enemy destroyed.\r\n   \u2022 Cube = 6 HP\r\n   \u2022 Sphere
+    = 12 HP\r\n   \u2022 Capsule = 18 HP\r\n- Game ends if an enemy passes you"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -10728,8 +10727,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 4.25}
-  m_SizeDelta: {x: 221.5802, y: 170.2562}
+  m_AnchoredPosition: {x: 0, y: 4.6301}
+  m_SizeDelta: {x: 221.5802, y: 170.944}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1280332625
 MonoBehaviour:
@@ -13070,10 +13069,10 @@ RectTransform:
   - {fileID: 560927318}
   m_Father: {fileID: 1280332624}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -46.7, y: -38.26}
-  m_SizeDelta: {x: 86.2, y: 11.03}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: -35.600018, y: 46.672005}
+  m_SizeDelta: {x: 108.4, y: 11.029999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1556215061
 MonoBehaviour:

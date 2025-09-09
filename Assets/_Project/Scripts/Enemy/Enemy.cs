@@ -41,6 +41,8 @@ public class Enemy : MonoBehaviour
         // If the game is over or paused, do not move
         if (gameManager.CurrentGameState is GameManager.GameState.GameOver or GameManager.GameState.Paused) return;
 
+        if(died) return; // Do not move if dead
+
         transform.Translate(Vector3.back * speed * Time.deltaTime);
 
         if(transform.position.z <= playerTransform.position.z + destroyZThreshold)
