@@ -15,9 +15,10 @@ public class GameManager : MonoBehaviour
 
     private GameState gameState = GameState.WaitingToStart;
 
-    public int score = 0;
+    private int score = 0;
     private bool gunChangeMenuActive = false;
     private Gun.GunType currentGunType = Gun.GunType.Type1;
+    private AudioSource audioSource; // For playing game over sound
 
     public GameState CurrentGameState => gameState;
 
@@ -31,6 +32,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -66,6 +69,7 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.ShowGameOverPanel(score);
         gameState = GameState.GameOver;
         OnGameStateChanged?.Invoke(gameState);
+        audioSource.Play();
     }
 
     public void AddScore(int points)
