@@ -9,7 +9,7 @@ The player stands in a long corridor and must **destroy incoming enemies** (cube
 - Scoring system for each enemy destroyed  
 
 ## Controls
-- **Press Y** → Toggle Gun Menu  
+- **Press X** → Toggle Gun Menu  
 - **Use Previous / Next** → Browse guns  
 - **Press Select** → Equip selected gun  
 - **Triggers** → Fire continuously while held  
