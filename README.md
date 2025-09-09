@@ -16,4 +16,6 @@ The player stands in a long corridor and must **destroy incoming enemies** (cube
 - **Triggers** → Fire continuously while held  
 - Destroy enemies before they reach you  
 
+## Note
+- Make sure to set up your **Guardian boundary** in the Meta Quest for the best experience.  
 
