@@ -32,11 +32,13 @@ public class EnemyManager : MonoBehaviour
         gameManager = GameManager.Instance;
         playerTransform = gameManager.PlayerTransform;
         gameManager.OnGameStateChanged += GameManager_OnGameStateChanged;
+        gameManager.OnGunChanged += UpdateDifficulty;
     }
 
     private void OnDestroy()
     {
         gameManager.OnGameStateChanged -= GameManager_OnGameStateChanged;
+        gameManager.OnGunChanged -= UpdateDifficulty;
     }
 
     private void GameManager_OnGameStateChanged(GameManager.GameState prevState, GameManager.GameState currentState)
@@ -51,6 +53,33 @@ public class EnemyManager : MonoBehaviour
         if(currentState is GameManager.GameState.GameOver)
         {
             ClearEnemies();
+        }
+    }
+
+    public void UpdateDifficulty(Gun.GunType gunType)
+    {
+        switch (gunType)
+        {
+            case Gun.GunType.Type1:
+                minSpawnInterval = 1.5f;
+                maxSpawnInterval = 3.5f;
+                minSpeed = 2f;
+                maxSpeed = 5f;
+                break;
+
+            case Gun.GunType.Type2:
+                minSpawnInterval = 0.8f;
+                maxSpawnInterval = 2.2f;
+                minSpeed = 3f;
+                maxSpeed = 7f;
+                break;
+
+            case Gun.GunType.Type3:
+                minSpawnInterval = 0.8f;
+                maxSpawnInterval = 1.5f;
+                minSpeed = 4f;
+                maxSpeed = 7f;
+                break;
         }
     }
 

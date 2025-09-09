@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class GunMenuUI : MonoBehaviour
 {
+    private const string LAST_LOADED_GUN_KEY = "LastLoadedGun";
+
     [Header("Place Holders")]
     [SerializeField] private TextMeshProUGUI gunNameText;
     [SerializeField] private TextMeshProUGUI gunDamageText;
@@ -30,6 +32,16 @@ public class GunMenuUI : MonoBehaviour
         previousButton.onClick.AddListener(PreviousGun);
         nextButton.onClick.AddListener(NextGun);
         selectButton.onClick.AddListener(SelectGun);
+
+        if(PlayerPrefs.HasKey(LAST_LOADED_GUN_KEY))
+        {
+            currentGunIndex = PlayerPrefs.GetInt(LAST_LOADED_GUN_KEY);
+        }
+        else
+        {
+            currentGunIndex = 0;
+        }
+
         UpdateCurrentGunUI();
     }
 

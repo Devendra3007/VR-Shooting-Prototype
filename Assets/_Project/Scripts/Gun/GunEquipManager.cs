@@ -4,6 +4,8 @@ using static GameManager;
 
 public class GunEquipManager : MonoBehaviour
 {
+    private const string LAST_LOADED_GUN_KEY = "LastLoadedGun";
+
     [Header("Meta Controllers")]
     [SerializeField] private GameObject leftController;
     [SerializeField] private GameObject rightController;
@@ -40,7 +42,16 @@ public class GunEquipManager : MonoBehaviour
     {
         if (prevState is GameManager.GameState.WaitingToStart && currentState is GameManager.GameState.Playing)
         {
-            EquipGuns(Gun.GunType.Type1);
+            if(PlayerPrefs.HasKey(LAST_LOADED_GUN_KEY))
+            {
+                Gun.GunType lastGun = (Gun.GunType)PlayerPrefs.GetInt(LAST_LOADED_GUN_KEY);
+                EquipGuns(lastGun);
+            }
+            else
+            {
+                EquipGuns(Gun.GunType.Type1);
+            }
+
             ToggleControllers(false);
         }
 
@@ -51,6 +62,7 @@ public class GunEquipManager : MonoBehaviour
                 ToggleControllers(false);
                 break;
             case GameState.Paused:
+            case GameState.GameOver:
                 ToggleGuns(false);
                 ToggleControllers(true);
                 break;
@@ -64,10 +76,13 @@ public class GunEquipManager : MonoBehaviour
 
         // Equip left and right guns
         currentLeftGun = Instantiate(gunPrefabs[gunTypeIndex], leftHandMount);
-        currentLeftGun.GetComponent<Gun>().SetGunHand(OVRInput.Controller.LTouch, OVRInput.Axis1D.PrimaryIndexTrigger);
+        currentLeftGun.GetComponent<Gun>().SetGunHand(OVRInput.Axis1D.PrimaryIndexTrigger);
 
         currentRightGun = Instantiate(gunPrefabs[gunTypeIndex], rightHandMount);
-        currentRightGun.GetComponent<Gun>().SetGunHand(OVRInput.Controller.RTouch, OVRInput.Axis1D.SecondaryIndexTrigger);
+        currentRightGun.GetComponent<Gun>().SetGunHand(OVRInput.Axis1D.SecondaryIndexTrigger);
+
+        PlayerPrefs.SetInt(LAST_LOADED_GUN_KEY, gunTypeIndex);
+        PlayerPrefs.Save();
     }
 
     private void UnEquipGuns()

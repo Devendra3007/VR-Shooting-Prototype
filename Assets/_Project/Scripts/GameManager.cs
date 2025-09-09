@@ -38,10 +38,10 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (gameState is GameState.GameOver) return;
+        if (gameState is GameState.GameOver or GameState.WaitingToStart) return;
 
         // Press Y to toggle gun change menu
-        if (OVRInput.Get(OVRInput.RawButton.Y)) 
+        if (OVRInput.GetDown(OVRInput.RawButton.X)) 
         {
             gunChangeMenuActive = !gunChangeMenuActive;
             ShowGunsMenu(gunChangeMenuActive);
@@ -61,7 +61,6 @@ public class GameManager : MonoBehaviour
         gameState = gunChangeMenuActive ? GameState.Paused : GameState.Playing;
         UIManager.Instance.ToggleGunChangePanel(gunChangeMenuActive);
         OnGameStateChanged?.Invoke(prevGameState, gameState);
-
     }
 
     public void SetCurrentSelectedGun(Gun.GunType gunType)

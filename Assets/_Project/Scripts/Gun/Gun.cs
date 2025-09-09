@@ -20,16 +20,14 @@ public class Gun : MonoBehaviour
     private float shootCooldown = 0;
 
     [Header("Trigger Settings")]
-    private OVRInput.Controller controller; // LTouch or RTouch
-    private OVRInput.Axis1D triggerButton = OVRInput.Axis1D.PrimaryIndexTrigger;
+    private OVRInput.Axis1D triggerAxis = OVRInput.Axis1D.PrimaryIndexTrigger;
 
     [Header("Audio")]
     [SerializeField] private AudioSource audioSource;
 
-    public void SetGunHand(OVRInput.Controller controller, OVRInput.Axis1D triggerButton)
+    public void SetGunHand(OVRInput.Axis1D triggerAxis)
     {
-        this.controller = controller;
-        this.triggerButton = triggerButton;
+        this.triggerAxis = triggerAxis;
     }
 
     private void Update()
@@ -38,7 +36,7 @@ public class Gun : MonoBehaviour
         if (GameManager.Instance.CurrentGameState is GameManager.GameState.GameOver or GameManager.GameState.Paused) return;
 
         // Get trigger value (0 to 1)
-        float triggerValue = OVRInput.Get(triggerButton, controller);
+        float triggerValue = OVRInput.Get(triggerAxis);
 
         if (triggerValue > 0.8f) // pressed threshold
         {
