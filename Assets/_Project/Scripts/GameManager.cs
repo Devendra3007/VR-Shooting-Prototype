@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
 
     private GameState gameState = GameState.WaitingToStart;
 
-    private int score = 0;
+    public int score = 0;
     private bool gunChangeMenuActive = false;
     private Gun.GunType currentGunType = Gun.GunType.Type1;
 

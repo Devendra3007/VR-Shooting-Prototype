@@ -23,6 +23,9 @@ public class Gun : MonoBehaviour
     private OVRInput.Controller controller; // LTouch or RTouch
     private OVRInput.Axis1D triggerButton = OVRInput.Axis1D.PrimaryIndexTrigger;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+
     public void SetGunHand(OVRInput.Controller controller, OVRInput.Axis1D triggerButton)
     {
         this.controller = controller;
@@ -52,6 +55,7 @@ public class Gun : MonoBehaviour
     {
         // Play muzzle flash
         muzzleFlash.Play();
+        audioSource.Play();
 
         Ray ray = new Ray(firePoint.position, firePoint.forward);
         Vector3 endPoint = ray.origin + ray.direction * maxRange;

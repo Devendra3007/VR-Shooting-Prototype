@@ -24,7 +24,7 @@ public class GunEquipManager : MonoBehaviour
         GameManager.Instance.OnGunChanged += GameManager_OnGunChanged;
 
         // Equip initial guns
-        EquipGuns(Gun.GunType.Type1);
+        EquipGuns(Gun.GunType.Type3);
         ToggleControllers(false);
     }
     private void OnDestroy()

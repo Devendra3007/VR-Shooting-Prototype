@@ -16,7 +16,10 @@ public class Enemy : MonoBehaviour
     private GameManager gameManager;
 
     private ParticleSystem[] damageVFX;
+    private AudioSource audioSource;
 
+    [SerializeField] private AudioClip blastClip; // Sound to play on death
+    private bool died = false; // To prevent multiple death calls
 
     private void Start()
     {
@@ -24,6 +27,7 @@ public class Enemy : MonoBehaviour
         playerTransform =gameManager.PlayerTransform;
 
         damageVFX = GetComponentsInChildren<ParticleSystem>();
+        audioSource = GetComponentInChildren<AudioSource>();
     }
 
     private void Update()
@@ -71,19 +75,25 @@ public class Enemy : MonoBehaviour
 
         health -= damage;
         PlayDamageVFX(hitPoint, hitNormal);
-
         if (health <= 0)
         {
+            if(died) return; // Prevent multiple death calls
+
             Die();
+        }
+        else
+        {
+            audioSource.Play();
         }
     }
 
     public void Die()
     {
-        Debug.Log($"{enemyType} Enemy Destroyed! +{points} points");
         gameManager.AddScore(points);
-        Destroy(gameObject);
-        // TODO: Add particle effects here
+        audioSource.clip = blastClip;
+        audioSource.Play();
+        Destroy(gameObject, audioSource.clip.length); // Delay destroy to allow sound to play
+        died = true;
     }
 
     public void PlayDamageVFX(Vector3 hitPoint, Vector3 hitNormal)
