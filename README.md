@@ -6,7 +6,8 @@ The player stands in a long corridor and must **destroy incoming enemies** (cube
 ## Features
 - Multiple guns with unique stats  
 - Enemy types with different health values  
-- Scoring system for each enemy destroyed  
+- Scoring system for each enemy destroyed
+- Different difficulty levels based on the selected gun  
 
 ## Controls
 - **Press X** → Toggle Gun Menu  
